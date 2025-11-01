@@ -2,7 +2,7 @@ import SwiftUI
 import Inject
 
 @main
-struct SwiftUIViperApp: App {
+struct SwiftCatalystApp: App {
   @ObserveInjection var inject
 
   init() {
@@ -16,7 +16,7 @@ struct SwiftUIViperApp: App {
 
   var body: some Scene {
     WindowGroup {
-      HomeRouter.createHomeView()
+      HomeView(viewModel: HomeViewModel(interactor: HomeInteractor()))
         .enableInjection()
     }
   }

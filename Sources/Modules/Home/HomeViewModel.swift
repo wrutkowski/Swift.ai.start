@@ -1,17 +1,16 @@
 import Foundation
 import SwiftUI
 
-final class HomePresenter: ObservableObject {
+final class HomeViewModel: ObservableObject {
   @Published private(set) var items: [HomeItem] = []
   @Published private(set) var isLoading: Bool = false
   @Published private(set) var errorMessage: String?
+  @Published var selectedItem: HomeItem?
 
   private let interactor: HomeInteractorProtocol
-  private let router: HomeRouterProtocol
 
-  init(interactor: HomeInteractorProtocol, router: HomeRouterProtocol) {
+  init(interactor: HomeInteractorProtocol) {
     self.interactor = interactor
-    self.router = router
   }
 
   @MainActor
@@ -24,9 +23,5 @@ final class HomePresenter: ObservableObject {
     } catch {
       errorMessage = "Failed to load items: \(error.localizedDescription)"
     }
-  }
-
-  func makeDetailView(for item: HomeItem) -> some View {
-    router.makeDetailView(for: item)
   }
 }

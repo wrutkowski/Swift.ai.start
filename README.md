@@ -2,7 +2,7 @@
 
 This project is a modern SwiftUI iOS template designed to make it easy to start building a project quickly using an AI coding tool like Cursor.
 
-It follows the VIPER architecture to keep your code modular and scalable. The template includes built-in support for hot reloading in Cursor so you can see changes in the simulator as you work. It also comes with a set of custom Swift coding rules that guide style and best practices, including a meta-rule that helps you create new Cursor rules.
+It follows the MVVM (Model-View-ViewModel) architecture with native SwiftUI navigation to keep your code modular and scalable. The template includes built-in support for hot reloading in Cursor so you can see changes in the simulator as you work. It also comes with a set of custom Swift coding rules that guide style and best practices, including a meta-rule that helps you create new Cursor rules.
 
 The project is pre-configured to work with Sweetpad for state previews, XcodeGen for project generation, SwiftLint for code quality enforcement, and InjectionNext for runtime code injection. This setup aims to make it easier to stay consistent, iterate quickly, and extend your codebase with AI assistance using Rules. Tested in Cursor, Windsurf, Trae, and VS Code.
 
@@ -12,8 +12,8 @@ The project is pre-configured to work with Sweetpad for state previews, XcodeGen
 - [Setup Process](#setup-process)
   - [Hot Reloading with InjectionNext](#hot-reloading-with-injectionnext)
 - [Project Structure](#project-structure)
-  - [VIPER Module Structure](#viper-module-structure)
-  - [Creating a New VIPER Module](#creating-a-new-viper-module)
+  - [MVVM Module Structure](#mvvm-module-structure)
+  - [Creating a New MVVM Module](#creating-a-new-mvvm-module)
   - [Customizing the Project](#customizing-the-project)
 - [Acknowledgments](#acknowledgments)
 - [FAQ](#faq)
@@ -25,7 +25,7 @@ The project is pre-configured to work with Sweetpad for state previews, XcodeGen
 
 ## Features
 
-- **VIPER Architecture**: Clean, modular, and testable architecture pattern 
+- **MVVM Architecture**: Clean, modular, and testable architecture pattern with native SwiftUI navigation
 - **SwiftUI**: Modern declarative UI framework
 - **Hot Reloading**: Live UI updates without rebuilding
 - **XcodeGen**: Project generation to avoid merge conflicts
@@ -130,9 +130,9 @@ This will:
 
 <img width="233" alt="InjectionNext Menu Bar" src="https://github.com/user-attachments/assets/3b8e865e-99da-4353-803b-573fe1291eaf" />
 
-After building [you should see this.](https://github.com/danielraffel/SwiftCatalyst/blob/main/README.md#-what-it-looks-like) 
+After building [you should see this.](https://github.com/danielraffel/SwiftCatalyst/blob/main/README.md#-what-it-looks-like)
 
-You’re now ready to start building! This is just a placeholder view—go ahead and replace it with / create your own custom VIPER module.
+You're now ready to start building! This is just a placeholder view—go ahead and replace it with / create your own custom MVVM module.
 
 ---
 
@@ -165,7 +165,7 @@ import Inject
 
 struct MyView: View {
     @ObserveInjection var inject
-    
+
     var body: some View {
         Text("Hello, World!")
             .enableInjection()
@@ -193,16 +193,18 @@ This repository contains a template project with all files at the root level:
 │   ├── Configuration/                    # Environment configuration
 │   │   └── Configuration.swift           # Centralized environment variable handler
 │   ├── Info.plist                        # App info property list
-│   └── Modules/                          # VIPER modules
+│   └── Modules/                          # MVVM modules
 │       └── Home/                         # Custom module name (eg Home)
-│           ├── View/                     # SwiftUI views
-│           ├── Interactor/               # Business logic
-│           ├── Presenter/                # Presentation logic
-│           ├── Entity/                   # Data models (HomeEntity.swift)
-│           └── Router/                   # Navigation logic
+│           ├── HomeView.swift            # SwiftUI views
+│           ├── HomeViewModel.swift       # View models
+│           ├── HomeInteractor.swift      # Business logic/data layer
+│           └── HomeEntity.swift          # Data models
 ├── Tests/                                # Source code tests
 │   ├── Info.plist                        # Test info property list
-│   └── SwiftUIViperAppTests.swift        # Unit tests for Interactor and Presenter logic using XCTest
+│   └── Modules/                          # Test modules mirroring source structure
+│       └── Home/                         # Home module tests
+│           ├── HomeInteractorTests.swift # Interactor tests
+│           └── HomeViewModelTests.swift  # ViewModel tests
 ├── .gitignore                            # Git ignore file
 ├── generate-project.sh                   # Script for generating project file
 ├── project.yml.template                  # XcodeGen configuration template
@@ -211,23 +213,25 @@ This repository contains a template project with all files at the root level:
 
 ---
 
-## VIPER Module Structure
+## MVVM Module Structure
 
-Each module follows the VIPER architecture pattern:
+Each module follows the MVVM architecture pattern:
 
-- **View**: SwiftUI view responsible for UI rendering
-- **Interactor**: Contains business logic and communicates with data sources
-- **Presenter**: Mediates between View and Interactor, prepares data for presentation
-- **Entity**: Data models used by the Interactor and Presenter
-- **Router**: Handles navigation and module creation
+- **View**: SwiftUI view responsible for UI rendering and user interactions
+- **ViewModel**: Manages the view's state and business logic, uses @Published properties
+- **Interactor**: Contains data layer logic and communicates with external sources
+- **Entity**: Data models used by the ViewModel and Interactor
 
-## Creating a New VIPER Module
+Navigation is handled using native SwiftUI `NavigationStack` and `NavigationLink` with `navigationDestination`.
+
+## Creating a New MVVM Module
 
 To create a new module, follow this structure:
 
 1. Create a new folder under `Sources/Modules/`
-2. Add the VIPER components (View, Interactor, Presenter, Entity, Router)
-3. Implement the module's functionality following the VIPER pattern
+2. Add the MVVM components (View, ViewModel, Interactor, Entity)
+3. Implement the module's functionality following the MVVM pattern
+4. Use `NavigationStack` and `NavigationLink` for navigation between views
 
 ## Customizing the Project
 
@@ -239,7 +243,7 @@ To rename the project or customize other aspects:
    - This approach allows you to easily configure:
      - Project name
      - Bundle IDs
-     - Team ID 
+     - Team ID
      - App Group ID
      - Other project-wide settings
 
@@ -265,7 +269,7 @@ For an efficient development workflow in Cursor, configure these keyboard shortc
 2. **Add these shortcuts**:
 - `Cmd+Shift+B` → Build & run
 - `Cmd+Shift+K` → Clean build
-  
+
 ![Cursor Sweetpad Shortcuts](https://github.com/user-attachments/assets/b1ac9c74-217e-4dae-9584-8f5128378cc4)
 
 ---
@@ -280,7 +284,6 @@ For an efficient development workflow in Cursor, configure these keyboard shortc
 - The Cursor Rules system implemented in this project:
   - [cursor-rules-creation.mdc](/.cursor/rules/cursor-rules-creation.mdc) was inspired by [Adithyan](https://www.adithyan.io/blog/writing-cursor-rules-with-a-cursor-rule) and [Geoffrey Huntley](https://ghuntley.com/stdlib/)
   - [git-commits.mdc](/.cursor/rules/git-commits.mdc) was inspired by [Geoffrey Huntley](https://ghuntley.com/stdlib/)
-  - [swift-viper-architecture.mdc](/.cursor/rules/swift-viper-architecture.mdc) was inspired by [Swift Cursor Rules](https://www.rayfernando.ai/swift-cursor-rules) by Ray Fernando & Lou Zell.
 
 ---
 
@@ -344,10 +347,10 @@ After completing setup and running the app, you should see a screen like this:
 This shows:
 - A **Home** title from the default module
 - A welcome message and confirmation of **hot reloading** status
-- A **Load Items** button wired to the Presenter and Interactor
-- A list of example topics (`Swift`, `UIKit`, etc.) fetched via VIPER flow
+- A **Load Items** button wired to the ViewModel and Interactor
+- A list of example topics (`Swift`, `UIKit`, etc.) fetched via MVVM flow
 
-You can customize this screen by modifying the Home module or adding new VIPER modules.
+You can customize this screen by modifying the Home module or adding new MVVM modules.
 
 ---
 
@@ -401,12 +404,12 @@ The git commits rule automatically:
 
 #### Using **`swift-viper-architecture.mdc`**:
 1. **Automatic activation**: These rules are automatically applied when editing matching Swift files.
-   
+
 2. **Manual activation**: In a Cursor chat, you can reference this rule with:
    ```
    @swift-viper-architecture.mdc
    ```
-   
+
 ---
 
 #### Using Configuration in Code
