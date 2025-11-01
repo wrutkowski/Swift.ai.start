@@ -1,5 +1,5 @@
 import XCTest
-@testable import SwiftUIViperApp
+@testable import SwiftCatalyst
 
 final class HomeViewModelTests: XCTestCase {
   func testLoadItemsSuccess() async {
