@@ -1,4 +1,6 @@
-# SwiftCatalyst
+# Swift.ai.start
+
+Based on [SwiftCatalyst by danielraffel](https://github.com/danielraffel/SwiftCatalyst).
 
 This project is a modern SwiftUI iOS template designed to make it easy to start building a project quickly using an AI coding tool like Cursor.
 
