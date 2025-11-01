@@ -200,8 +200,7 @@ struct ExampleView: View {
 
 ## Reusable Components
 1. Implement custom view modifiers for shared styling and behavior.
-2. For reusable view modifiers define System Design and keep all related files and values there.
-3. Use extensions to add reusable functionality to existing types.
+2. Use extensions to add reusable functionality to existing types.
 
 ## Accessibility
 1. Add accessibility modifiers to all UI elements.
@@ -219,13 +218,13 @@ struct ExampleView: View {
 3. View → ViewModel: User actions call ViewModel methods
 4. ViewModel → Interactor: ViewModel calls Interactor for data
 5. Interactor → ViewModel: Data flows back through async/await
-6. ViewModel → View: `public` / `internal` properties trigger UI updates
+6. ViewModel → View: `@Published` properties trigger UI updates
 
 ## Testing
 1. Write unit tests for `Interactor` and `ViewModel` logic.
 2. Use mock implementations of Interactor in ViewModel tests.
 3. Implement UI tests for critical user flows.
-4. Use `#Preview` macro for rapid UI iteration and visual validation.
+4. Use `PreviewProvider` for rapid UI iteration and visual validation.
 5. Test files should mirror the module structure: `Tests/Modules/[ModuleName]/[ComponentName]Tests.swift`
 
 ## SwiftUI-specific Patterns
@@ -244,7 +243,6 @@ struct ExampleView: View {
 ## Code Style and Formatting
 1. Follow Swift naming conventions and style guidelines.
 2. Use tools like SwiftLint to enforce consistent code style.
-3. Do not use magic values - define private constants or global constants for reusable values.
 
 ## XcodeGen Configuration
 1. Use XcodeGen for project generation to avoid merge conflicts.
